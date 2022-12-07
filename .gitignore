@@ -4,3 +4,6 @@ excel/env
 excel/pivot_table.xlsx
 excel/barchart.xlsx
 excel/formulae.xlsx
+excel/build/excel
+excel/dist
+excel/excel.spec

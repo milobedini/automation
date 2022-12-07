@@ -1,30 +1,37 @@
+import os
+import sys
+
 import pandas as pd
 from openpyxl import load_workbook
 from openpyxl.chart import BarChart, Reference
 from openpyxl.styles import Font
 from openpyxl.utils import get_column_letter
 
+# AUTOMATION SCRIPT
+application_path = os.path.dirname(sys.executable)
+
 # CREATING PIVOT TABLE
 
-# xlsx is excel
-df = pd.read_excel("supermarket_sales.xlsx")
+# # xlsx is excel
+# df = pd.read_excel("supermarket_sales.xlsx")
 
-# Want Gender, Product Line and Total columns.
-df = df[["Gender", "Product line", "Total"]]
+# # Want Gender, Product Line and Total columns.
+# df = df[["Gender", "Product line", "Total"]]
 
-# A pivot table is a table of grouped values that aggregates the individual items of a more extensive table within one or more discrete categories.
+# # A pivot table is a table of grouped values that aggregates the individual items of a more extensive table within one or more discrete categories.
 
-# Goal is to see how much each gender spends in each product line.
-# So gender the index, and product line the columns.
-pivot_table = df.pivot_table(index="Gender", columns="Product line", values="Total", aggfunc="sum").round(0)
+# # Goal is to see how much each gender spends in each product line.
+# # So gender the index, and product line the columns.
+# pivot_table = df.pivot_table(index="Gender", columns="Product line", values="Total", aggfunc="sum").round(0)
 
-# Create file, with sheet called report and with the data starting in row 4.
-pivot_table.to_excel("pivot_table.xlsx", "Report", startrow=4)
+# # Create file, with sheet called report and with the data starting in row 4.
+# pivot_table.to_excel("pivot_table.xlsx", "Report", startrow=4)
 
 # CREATING BAR CHART
 # pip install openpyxl
 
-wb = load_workbook("pivot_table.xlsx")
+input_path = os.path.join(application_path, "pivot_table.xlsx")
+wb = load_workbook(input_path)
 sheet = wb["Report"]
 
 min_column = wb.active.min_column  # prints 1 (A)
@@ -63,7 +70,7 @@ barchart.style = 5
 
 sheet.add_chart(barchart, "B12")
 
-wb.save("barchart.xlsx")
+# wb.save("barchart.xlsx")
 
 # USE EXCEL FORMULAE IN PYTHON
 
@@ -82,10 +89,12 @@ for i in range(min_column + 1, max_column + 1):
 
 # FORMATTING
 
+month = input("Input month: ")
+
 sheet["A1"] = "Sales Report"
-sheet["A2"] = "January"
+sheet["A2"] = month
 sheet["A1"].font = Font("Arial", bold=True, size=20)
 sheet["A2"].font = Font("Arial", italic=True, size=16)
 
-
-wb.save("formulae.xlsx")
+output_path = os.path.join(application_path, f"report_{month}.xlsx")
+wb.save(output_path)
