@@ -1,2 +1,5 @@
 tables/env
 .vscode
+excel/env
+excel/pivot_table.xlsx
+excel/barchart.xlsx
