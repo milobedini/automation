@@ -1,6 +1,7 @@
 import pandas as pd
 from openpyxl import load_workbook
 from openpyxl.chart import BarChart, Reference
+from openpyxl.utils import get_column_letter
 
 # CREATING PIVOT TABLE
 
@@ -62,3 +63,20 @@ barchart.style = 5
 sheet.add_chart(barchart, "B12")
 
 wb.save("barchart.xlsx")
+
+# USE EXCEL FORMULAE IN PYTHON
+
+# =SUM(B6:B7), electronics
+# For one cell
+# sheet["B8"] = "=SUM(B6:B7)"
+# sheet["B8"].style = "Currency"
+
+# We often want to mass create formulae however.
+# Want to sum columns B-G downwards, using rows 6 and 7.
+
+for i in range(min_column + 1, max_column + 1):
+    column = get_column_letter(i)
+    sheet[f"{column}{max_row+1}"] = f"=SUM({column}{min_row+1}:{column}{max_row})"
+    sheet[f"{column}{max_row+1}"].style = "Currency"
+
+wb.save("formulae.xlsx")
