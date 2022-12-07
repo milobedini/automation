@@ -1,6 +1,7 @@
 import pandas as pd
 from openpyxl import load_workbook
 from openpyxl.chart import BarChart, Reference
+from openpyxl.styles import Font
 from openpyxl.utils import get_column_letter
 
 # CREATING PIVOT TABLE
@@ -78,5 +79,13 @@ for i in range(min_column + 1, max_column + 1):
     column = get_column_letter(i)
     sheet[f"{column}{max_row+1}"] = f"=SUM({column}{min_row+1}:{column}{max_row})"
     sheet[f"{column}{max_row+1}"].style = "Currency"
+
+# FORMATTING
+
+sheet["A1"] = "Sales Report"
+sheet["A2"] = "January"
+sheet["A1"].font = Font("Arial", bold=True, size=20)
+sheet["A2"].font = Font("Arial", italic=True, size=16)
+
 
 wb.save("formulae.xlsx")
