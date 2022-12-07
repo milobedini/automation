@@ -6,3 +6,6 @@ excel/formulae.xlsx
 excel/build/excel
 excel/dist
 excel/excel.spec
+whatsapp/env
+whatsapp/config.py
+whatsapp/__pycache__
